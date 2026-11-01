@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Link-preview image (og.png, 1200×630) built from carte.js. Render it with the command in README.md. -->
+<script src="../carte.js"></script>
+<script>const t=CARTE.theme;document.write(`<link href="${t.fonts.href}" rel="stylesheet">`);for(const k in t.colors)document.documentElement.style.setProperty('--'+k,t.colors[k]);for(const k of ['display','body'])document.documentElement.style.setProperty('--'+k,t.fonts[k]);</script>
+<style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:var(--bg);color:var(--cream);font-family:var(--body)}
+.card{position:relative;width:1200px;height:630px;display:grid;grid-template-columns:1fr 520px;box-sizing:border-box;border:1px solid var(--line)}
+.text{padding:78px 0 0 80px}.eyebrow{color:var(--gold);font-size:20px;letter-spacing:.25em;text-transform:uppercase;font-weight:700}
+h1{font:400 118px/1 var(--display);letter-spacing:-.055em;margin:34px 0 30px}h1 em{color:var(--gold)}p{color:var(--muted);font-size:25px;line-height:1.5;margin:0;max-width:560px}
+.art{position:relative;background:radial-gradient(ellipse at 54% 50%,color-mix(in srgb,var(--gold) 40%,var(--bg)) 0,var(--panel) 45%,var(--bg) 77%)}
+.disc{position:absolute;width:420px;height:420px;left:50px;top:105px;border-radius:50%;box-sizing:border-box;background:repeating-radial-gradient(circle at center,#252923 0 3px,#131713 4px 6px,#2b302a 7px 9px);border:13px solid #111713;box-shadow:0 22px 90px #000a,inset 0 0 40px #0009}
+.disc:before{content:'';position:absolute;inset:27%;border-radius:50%;background:radial-gradient(circle,#191c19 0 8%,var(--gold) 8.5% 10%,var(--gold) 10% 100%)}
+.arm{position:absolute;left:480px;top:110px;width:7px;height:270px;border-radius:3px;background:linear-gradient(90deg,#8d7650,#e2cb9b 45%,#8d7650);transform-origin:3px 0;transform:rotate(18deg)}
+.arm:before{content:'';position:absolute;width:36px;height:36px;left:-15px;top:-18px;border-radius:50%;background:radial-gradient(circle,#d9bf8b 0 18%,#2a2f28 20% 100%);border:2px solid #b99363}
+.foot{position:absolute;left:80px;bottom:54px;color:var(--muted);font-size:18px;letter-spacing:.14em;text-transform:uppercase}
+</style></head><body><div class="card"><div class="text"><div class="eyebrow" id="e"></div><h1 id="h"></h1><p id="p"></p></div><div class="art"><div class="disc"></div><div class="arm"></div></div><div class="foot">Ghid pentru clubul de lectură</div></div>
+<script>e.innerHTML=CARTE.hero.eyebrow;h.innerHTML=CARTE.hero.title;p.innerHTML=CARTE.share</script></body></html>

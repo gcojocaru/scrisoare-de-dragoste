@@ -1,0 +1,20 @@
+<!doctype html><html lang="ro"><meta charset="utf-8"><title>Verifică YouTube</title>
+<style>body{font:14px system-ui,sans-serif;margin:24px;background:#16191a;color:#eee}td{padding:4px 10px;border-bottom:1px solid #333}.ok{color:#8fd18f}.bad{color:#ff8a7a}#p{position:absolute;left:-9999px}</style>
+<h1>Verifică înregistrările YouTube din carte.js</h1>
+<p>Fiecare ID (piese, filme, întâlnirile clubului) e pornit, fără sunet, într-un player încorporat, ca pe site. „Nu se poate încorpora” (eroarea 101/150) înseamnă că trebuie aleasă altă înregistrare.
+Deschide pagina printr-un server local (de ex. <code>python3 -m http.server</code> în folderul site-ului), nu direct din fișier.</p>
+<table id="t"><tr><th>ID</th><th>Unde</th><th>Titlu</th><th>Rezultat</th></tr></table><div id="p"></div>
+<script src="../carte.js"></script>
+<script>
+// One muted embed at a time: an ID passes when it reaches "playing", fails on any player error, and times out after 15 s.
+const C=window.CARTE,rows=[...C.tracks.filter(t=>t.video).map(t=>[t.video,t.group||'roman',t.title]),...C.films.map(f=>[f.clip,'cinema',f.name]),...C.club.flatMap((m,i)=>m.cues.map(v=>[v,'club '+(i+1),'']))];
+const seen=new Set,list=rows.filter(([v])=>!seen.has(v)&&seen.add(v)),T=document.getElementById('t');
+list.forEach(([v,where,title])=>T.insertAdjacentHTML('beforeend',`<tr id="r-${v}"><td>${v}</td><td>${where}</td><td>${title}</td><td>…</td></tr>`));
+const mark=(v,ok,txt)=>{const c=document.querySelector(`#r-${CSS.escape(v)} td:last-child`);c.className=ok?'ok':'bad';c.textContent=txt};
+const missing=list.filter(([v])=>!C.tracks.some(t=>t.video===v)&&!C.films.some(f=>f.clip===v));
+missing.forEach(([v])=>mark(v,false,'ID-ul din club nu există în tracks'));
+window.onYouTubeIframeAPIReady=async()=>{for(const [v] of list.filter(x=>!missing.includes(x))){await new Promise(done=>{const el=document.createElement('div');document.getElementById('p').append(el);let end=false;const finish=(ok,txt)=>{if(end)return;end=true;mark(v,ok,txt);p.destroy();done()};
+ const p=new YT.Player(el,{host:'https://www.youtube-nocookie.com',width:320,height:180,videoId:v,playerVars:{mute:1,playsinline:1},events:{onReady:e=>{e.target.mute();e.target.playVideo()},onStateChange:e=>{if(e.data===1)finish(true,'merge · '+Math.round(e.target.getDuration())+' s')},onError:e=>finish(false,[101,150].includes(e.data)?'nu se poate încorpora ('+e.data+')':'eroare '+e.data)}});
+ setTimeout(()=>finish(false,'nu a pornit în 15 s'),15000)})}};
+const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.append(s);
+</script></html>
